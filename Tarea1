@@ -1,0 +1,66 @@
+---
+title: "Tarea 1 presentada por Andres Diaz del Castillo"
+output: html_notebook
+---
+
+#BISECCION
+# Remueve todos los objetos creados
+rm(list=ls())
+Fx <- function(x) exp(x) - (pi)*x
+
+# Halla la raiz de Fx
+biseccion <- function(a,b) {
+x<-seq(a,b,0.1)
+plot(x,Fx(x),type="l",col="blue")
+abline(h=0,col="blue")
+x<-b
+
+d<-(a+b)/2
+i<-0
+error<-abs(a-b)/2
+while (error > 1.e-8) {
+i<-i+1
+if (Fx(x) == 0) break
+if (Fx(x)*Fx(a) < 0) b <- x else {a <- x}
+d<-x
+x<-(a+b)/2
+#points(rbind(c(x,0)),pch=17,cex=0.7,col="red")
+text(x,0,i,cex=0.8,col="red")
+error<-abs(a-b)/2
+cat("X=",x,"\tE=",error,"\n")
+}
+print(sprintf("El numero de iteraciones fue %s.", i))
+}
+biseccion(1,2)
+
+```{r}
+#PUNTO FIJO NO FUNCIONA MUY BIEN
+fixpt_own <- function(x0, tol = 1e-8, max.iter = 100) {
+  x2 <- x0
+  x1 <- ftn_g(x2)
+  iter <- 1
+  cat("En la iteracion 1 el valor de x es:", x1, "\n")
+  while ((abs(x1-x2) > tol) && (iter < max.iter)) {
+    x2 <- x1;
+    x1 <- ftn_g(x2);
+    iter <- iter + 1
+    cat("En la ireracion", iter, "el valor de x es:", x1, "\n")
+  }
+  if (abs(x1-x2) > tol) {
+    cat("Fin\n")
+    return(NULL)
+  } else {
+    cat("Fin\n")
+    return(x1)
+  }
+}
+fixpt_own(3,1e-8,150)
+
+
+ftn_g <- function(x){
+  g <- exp(x) - (pi)*x;
+  return(g)
+}
+
+```
+
